@@ -1,0 +1,11 @@
+export { default as AddDisciplina } from './AddDisciplina';
+export { default as Home } from './Home';
+export { default as Login } from './Login';
+export { default as NotFound } from './NotFound';
+export { default as Perfil } from './Perfil';
+export { default as Registro } from './Registro';
+export { default as Topicos } from './Topicos';
+export { default as Materia } from './Materia';
+export { default as Disciplina } from './Disciplina';
+export { default as AddMateria } from './AddMateria';
+export { default as Materias } from './Materias';
