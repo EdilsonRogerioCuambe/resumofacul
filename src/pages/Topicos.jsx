@@ -9,9 +9,6 @@ import { CardMateria } from '../components';
 const Topicos = () => {
   const [materias, setMaterias] = useState([]);
   const { id } = useParams();
-
-  console.log(id);
-
   useEffect(() => {
     const getMaterias = async () => {
       const materiasCollection = collection(db, 'topicos', id, 'materias');
@@ -24,12 +21,13 @@ const Topicos = () => {
       });
       setMaterias(materiasList);
     }
+
     if (id) {
       getMaterias();
     }
   }, [id]);
 
-
+  console.log(materias);
 
   return (
     <div
@@ -48,22 +46,20 @@ const Topicos = () => {
         >
           {materias.map(materia => {
             return (
-              <Link
-                to={`/materia/${materia.id}`}
+              <CardMateria
+                topicoId={id}
+                id={materia.id}
                 key={materia.id}
-              >
-                <CardMateria
-                  title={materia.titulo}
-                  description={materia.descricao}
-                  image={materia.imagem}
-                  id={materia.id}
-                />
-              </Link>
+                title={materia.titulo}
+                description={materia.descricao}
+                image={materia.imagem}
+                tags={materia.tags}
+              />
             )
           })}
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 

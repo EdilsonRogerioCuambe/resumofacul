@@ -13,7 +13,7 @@ const Card = ({
       className='mt-10'
     >
       <Link to={`/disciplinas/${id}`}>
-        <div className="max-w-sm rounded overflow-hidden shadow-lg transition-shadow duration-300 ease-in-out transform hover:shadow-2xl">
+        <div className="max-w-md rounded overflow-hidden shadow-lg transition-shadow duration-300 ease-in-out transform hover:shadow-2xl">
           <img
             className="w-full h-48 object-contain mt-2"
             src={image}

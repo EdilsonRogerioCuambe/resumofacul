@@ -8,4 +8,4 @@ export { default as Topicos } from './Topicos';
 export { default as Materia } from './Materia';
 export { default as Disciplina } from './Disciplina';
 export { default as AddMateria } from './AddMateria';
-export { default as Materias } from './Materias';
+export { default as EditarMateria } from './EditarMateria';

@@ -1,32 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getDoc, getDocs, doc, collection, addDoc, where } from 'firebase/firestore';
+import { Link, useParams } from 'react-router-dom';
+import { getDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 
 const Materia = () => {
 
-  const [materia, setMateria] = useState();
+  const [materia, setMateria] = useState(null);
 
-  const { id } = useParams();
+  const { topicoId, materiaId } = useParams();
 
   useEffect(() => {
     const getMateria = async () => {
-      const materiaDoc = collection(db, 'materias');
-      const materiaSnapshot = await getDocs(materiaDoc);
-      const materiaList = materiaSnapshot.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
-      });
-
-      const materia = materiaList.find((materia) => materia.id === id);
-      console.log(materia);
-      setMateria(materia);
+      const materiaDoc = await getDoc(doc(db, "topicos", topicoId, "materias", materiaId));
+      setMateria(materiaDoc.data());
     }
-    if (id) {
+
+    if (topicoId && materiaId) {
       getMateria();
     }
-  }, [id]);
+  }, [topicoId, materiaId]);
 
-  if (!id) {
+  console.log(materia);
+
+  if (!materia) {
     return (
       <div
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
@@ -55,15 +51,40 @@ const Materia = () => {
       >
         <div className="flex flex-col md:flex-row">
           <div className="flex-1 bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+            <div
+              className="flex items-center justify-between"
+            >
+              <Link
+                to={`/topicos/${topicoId}/materias/${materiaId}/editar`}
+                className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
+              >
+                Editar Materia
+              </Link>
+            </div>
+            <div
+              className="flex items-center justify-between"
+            >
+              <img
+                className="w-full object-contain rounded-lg h-80"
+                src={materia.imagem}
+                alt={materia.titulo}
+              />
+            </div>
             <div className="flex items-center justify-between">
               <h3 className="text-lg leading-6 font-medium text-gray-900">
-                
+                {materia.titulo}
               </h3>
             </div>
             <div className="mt-2">
               <p className="text-sm text-gray-500">
+                {materia.descricao}
               </p>
             </div>
+            <code
+              className="text-sm text-gray-500"
+            >
+              {materia.code}
+            </code>
           </div>
         </div>
       </div>
