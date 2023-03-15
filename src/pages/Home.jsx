@@ -48,7 +48,7 @@ const Home = () => {
 
   return (
     <div
-      className='flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-wrap'
+      className='max-w-7xl mx-auto grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
     >
       {
         disciplinas.map((disciplina) => (

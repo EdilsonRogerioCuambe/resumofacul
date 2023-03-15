@@ -99,7 +99,6 @@ const Header = () => {
                             : "text-gray-300 hover:bg-gray-700 hover:text-white uppercase",
                           "px-3 py-2 rounded-md text-sm font-medium"
                         )}
-                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
                       </Link>
@@ -246,4 +245,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default Header;

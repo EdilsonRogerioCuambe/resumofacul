@@ -6,7 +6,7 @@ import {
   Login,
   Materia,
   Topicos,
-  Registro,
+  EditarDisciplina,
   AddMateria,
   Perfil,
   AddDisciplina,
@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/registro/*" element={<Registro />} />
+        <Route path="/disciplinas/:id/editar" element={<EditarDisciplina />} />
         <Route path="/perfil/*" element={<Perfil />} />
         <Route path="/add_disciplina/" element={<AddDisciplina />} />
         <Route path="/disciplinas/:id" element={<Disciplina />} />

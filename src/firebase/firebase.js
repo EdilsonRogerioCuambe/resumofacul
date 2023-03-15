@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-import { addDoc, collection, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { addDoc, collection, updateDoc, doc, getDocs, getFirestore, query, where } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -100,6 +100,16 @@ const sendPasswordReset = async (email) => {
   }
 };
 
+const updateUserAdmin = async (uid, isAdmin) => {
+  try {
+    await updateDoc(doc(db, "users", uid), {
+      isAdmin,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 export {
   auth,
   signInWithGoogle,
@@ -109,4 +119,5 @@ export {
   sendPasswordReset,
   db,
   storage,
+  updateUserAdmin,
 };

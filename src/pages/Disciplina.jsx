@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getDoc, getDocs, doc, collection, addDoc } from 'firebase/firestore';
+import { getDoc, getDocs, doc, collection, addDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { toast } from 'react-toastify';
 
@@ -30,6 +30,18 @@ const Disciplina = () => {
         navigate(`/disciplinas/${id}`);
     };
 
+    const deleteTopico = async (idTopico) => {
+        await deleteDoc(doc(db, 'disciplinas', id, 'topicos', idTopico));
+        toast.success('Tópico excluído com sucesso');
+        navigate(`/disciplinas/${id}`);
+    };
+
+    const deteleDisciplina = async () => {
+        await deleteDoc(doc(db, 'disciplinas', id));
+        toast.success('Disciplina excluída com sucesso');
+        navigate('/');
+    };
+
     useEffect(() => {
         const getDisciplina = async () => {
             const disciplinaDoc = await getDoc(doc(db, "disciplinas", id));
@@ -52,29 +64,52 @@ const Disciplina = () => {
 
     if (!disciplina) {
         return (
-          <div
-            className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-          >
-            <div div className="flex flex-col mt-10" >
-              <div className="flex flex-col md:flex-row">
-                <div className="flex-1 bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Carregando...
-                    </h3>
-                  </div>
+            <div
+                className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+            >
+                <div div className="flex flex-col mt-10" >
+                    <div className="flex flex-col md:flex-row">
+                        <div className="flex-1 bg-white rounded-lg shadow px-5 py-6 sm:px-6">
+                            <div className="flex items-center justify-between">
+                                <h3 className="text-lg leading-6 font-medium text-gray-900">
+                                    Carregando...
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         );
-      }
+    }
 
     return (
         <div
             className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         >
             <div div className="flex flex-col mt-10" >
+                <div
+                    className="flex flex-row justify-between"
+                >
+                    <Link
+                        to={`/disciplinas/${id}/editar`}
+                        className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
+                    >
+                        Editar {disciplina.nome}
+                    </Link>
+                </div>
+                <div
+                    className="flex flex-row justify-between mt-2"
+                >
+                    <button
+                        className="text-white font-bold px-4 py-2 rounded mb-4 bg-red-500 hover:bg-red-700"
+                        onClick={deteleDisciplina}
+                    >
+                        Excluir {disciplina.nome}
+                    </button>
+                </div>
+                <div>
+                    <button></button>
+                </div>
                 <div className="flex flex-col md:flex-row">
                     <div className="flex-1">
                         <h1 className="text-3xl font-bold">{disciplina.nome}</h1>
@@ -124,10 +159,20 @@ const Disciplina = () => {
                                 id={topico.id}
                             >
                                 <Link
-                                    className='border-2 border-gray-300 rounded-md mt-10 p-2 hover:bg-gray-200'
+                                    className='border border-gray-300 rounded-md p-2 hover:bg-gray-200'
                                     to={`/topicos/${topico.id}`}>
                                     {topico.nome}
                                 </Link>
+                                <div
+                                    className="flex flex-row justify-between mt-3"
+                                >
+                                    <button
+                                        className="text-white font-bold px-4 py-2 rounded mb-4 bg-red-500 hover:bg-red-700"
+                                        onClick={() => deleteTopico(topico.id)}
+                                    >
+                                        Excluir {topico.nome}
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>

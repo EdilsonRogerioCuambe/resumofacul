@@ -5,11 +5,11 @@ import { db } from '../firebase/firebase';
 import { toast } from 'react-toastify';
 
 const Materia = () => {
-
+  const navigate = useNavigate();
   const [materia, setMateria] = useState(null);
 
   const { topicoId, materiaId } = useParams();
-  const navigate = useNavigate();
+  
 
   const deletarMateria = async () => {
     try {
