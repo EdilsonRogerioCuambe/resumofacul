@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getDoc, doc } from 'firebase/firestore';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { getDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
+import { toast } from 'react-toastify';
 
 const Materia = () => {
 
   const [materia, setMateria] = useState(null);
 
   const { topicoId, materiaId } = useParams();
+  const navigate = useNavigate();
+
+  const deletarMateria = async () => {
+    try {
+      await deleteDoc(doc(db, "topicos", topicoId, "materias", materiaId));
+      toast.success('Materia deletada com sucesso');
+      navigate(`/topicos/${topicoId}`);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  }
 
   useEffect(() => {
     const getMateria = async () => {
@@ -64,6 +76,16 @@ const Materia = () => {
             <div
               className="flex items-center justify-between"
             >
+              <button
+                onClick={deletarMateria}
+                className="text-white font-bold py-2 px-4 rounded mb-4 bg-red-500 hover:bg-red-700"
+              >
+                Deletar Materia
+              </button>
+            </div>
+            <div
+              className="flex items-center justify-between"
+            >
               <img
                 className="w-full object-contain rounded-lg h-80"
                 src={materia.imagem}
@@ -71,7 +93,7 @@ const Materia = () => {
               />
             </div>
             <div className="flex items-center justify-between">
-              <h3 className="text-lg leading-6 font-medium text-gray-900">
+              <h3 className="text-lg leading-6 font-medium text-gray-900 uppercase">
                 {materia.titulo}
               </h3>
             </div>
