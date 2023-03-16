@@ -4,6 +4,8 @@ import { db, storage } from '../firebase/firebase';
 import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { toast } from 'react-toastify';
+import ReactQuill from 'react-quill';
+import "react-quill/dist/quill.snow.css";
 
 const EditarMateria = () => {
 
@@ -158,17 +160,11 @@ const EditarMateria = () => {
                         <label htmlFor="descricao" className="block text-lg font-medium text-gray-700">
                           Descrição
                         </label>
-                        <textarea
-                          type="text"
-                          name="descricao"
-                          id="descricao"
+                        <ReactQuill
                           value={materia.descricao}
-                          onChange={(e) => setMateria({ ...materia, descricao: e.target.value })}
-                          autoComplete="family-name"
-                          className="mt-1 border-2 border-gray-700 block w-full shadow-sm sm:text-lg rounded-md p-2"
-                        >
-                          {materia.descricao}
-                        </textarea>
+                          onChange={(e) => setMateria({ ...materia, descricao: e })}
+                          className="mt-1 p-2 border-2 block w-full shadow-sm sm:text-lg border-gray-700 rounded-md"
+                        ></ReactQuill>
                       </div>
                       <div className="col-span-6 sm:col-span-3">
                         <label htmlFor="tags" className="block text-lg font-medium text-gray-700">
