@@ -1,8 +1,5 @@
 
-import { Link, useParams } from 'react-router-dom';
-import { Materia } from '../pages';
-import { getDoc, getDocs, doc, query, collection, addDoc, where, collectionGroup } from 'firebase/firestore';
-import { db } from '../firebase/firebase';
+import { Link } from 'react-router-dom';
 const CardMateria = ({
     title,
     description,
