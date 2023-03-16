@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   db,
+  auth,
 } from '../firebase/firebase';
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { CardMateria } from '../components';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { toast } from 'react-toastify';
 
 const Topicos = () => {
   const [materias, setMaterias] = useState([]);
+  const [user] = useAuthState(auth);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { id } = useParams();
   useEffect(() => {
     const getMaterias = async () => {
@@ -22,12 +27,28 @@ const Topicos = () => {
       setMaterias(materiasList);
     }
 
+    const fetchUser = async () => {
+      try {
+        const q = query(collection(db, 'usuarios'), where('isAdmin', '==', true));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          if (doc.data().uid === user.uid) {
+            setIsAdmin(true);
+          }
+        });
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
     if (id) {
       getMaterias();
     }
-  }, [id]);
 
-  console.log(materias);
+    fetchUser();
+  }, [id, user]);
+
+  console.log(isAdmin);
 
   return (
     <div
@@ -35,12 +56,16 @@ const Topicos = () => {
     >
 
       <div className="flex flex-col mt-10">
-        <Link
-          to={`/topicos/${id}/adicionar-materia`}
-          className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
-        >
-          Adicionar Materia
-        </Link>
+        {
+          isAdmin && (
+            <Link
+              to={`/topicos/${id}/adicionar-materia`}
+              className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
+            >
+              Adicionar Materia
+            </Link>
+          )
+        }
         <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >

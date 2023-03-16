@@ -115,7 +115,7 @@ const Disciplina = () => {
                         <img
                             className="w-full h-48 object-contain mt-2"
                             src={disciplina.imagem}
-                            alt="Sunset in the mountains"
+                            alt={disciplina.nome}
                         />
                     </div>
                 </div>

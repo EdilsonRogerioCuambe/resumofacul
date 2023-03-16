@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { getDoc, doc, deleteDoc } from 'firebase/firestore';
-import { db } from '../firebase/firebase';
+import { getDoc, doc, query, collection, where, getDocs, deleteDoc } from 'firebase/firestore';
+import { db, auth } from '../firebase/firebase';
 import { toast } from 'react-toastify';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Materia = () => {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth);
   const [materia, setMateria] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { topicoId, materiaId } = useParams();
-  
+
 
   const deletarMateria = async () => {
     try {
@@ -27,12 +30,27 @@ const Materia = () => {
       setMateria(materiaDoc.data());
     }
 
+    const fetchUser = async () => {
+      try {
+        const q = query(collection(db, 'usuarios'), where('isAdmin', '==', true));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          if (doc.data().uid === user.uid) {
+            setIsAdmin(true);
+          }
+        });
+      } catch (error) {
+        toast.error(error.message);
+      }
+    };
+
     if (topicoId && materiaId) {
       getMateria();
     }
-  }, [topicoId, materiaId]);
+    fetchUser();
+  }, [topicoId, materiaId, user]);
 
-  console.log(materia);
+  console.log(isAdmin);
 
   if (!materia) {
     return (
@@ -63,26 +81,32 @@ const Materia = () => {
       >
         <div className="flex flex-col md:flex-row">
           <div className="flex-1 bg-white rounded-lg shadow px-5 py-6 sm:px-6">
-            <div
-              className="flex items-center justify-between"
-            >
-              <Link
-                to={`/topicos/${topicoId}/materias/${materiaId}/editar`}
-                className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
-              >
-                Editar Materia
-              </Link>
-            </div>
-            <div
-              className="flex items-center justify-between"
-            >
-              <button
-                onClick={deletarMateria}
-                className="text-white font-bold py-2 px-4 rounded mb-4 bg-red-500 hover:bg-red-700"
-              >
-                Deletar Materia
-              </button>
-            </div>
+            {
+              isAdmin && (
+                <>
+                  <div
+                    className="flex items-center justify-between"
+                  >
+                    <Link
+                      to={`/topicos/${topicoId}/materias/${materiaId}/editar`}
+                      className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
+                    >
+                      Editar Materia
+                    </Link>
+                  </div>
+                  <div
+                    className="flex items-center justify-between"
+                  >
+                    <button
+                      onClick={deletarMateria}
+                      className="text-white font-bold py-2 px-4 rounded mb-4 bg-red-500 hover:bg-red-700"
+                    >
+                      Deletar Materia
+                    </button>
+                  </div>
+                </>
+              )
+            }
             <div
               className="flex items-center justify-between"
             >
