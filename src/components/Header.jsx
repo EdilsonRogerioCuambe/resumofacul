@@ -18,6 +18,7 @@ const Header = () => {
   const [user] = useAuthState(auth);
   const [name, setName] = useState('');
   const [photo, setPhoto] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const navigation = [
@@ -50,10 +51,12 @@ const Header = () => {
         console.log(data);
         setName(data.name);
         setPhoto(data.photo);
+        setIsAdmin(data.isAdmin);
       } catch (error) {
         console.log(error);
       }
     }
+
     fetchUser();
   }, [user, loading, navigate]);
 
@@ -89,20 +92,27 @@ const Header = () => {
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          item.current
-                            ? "bg-gray-900 text-white uppercase"
-                            : "text-gray-300 hover:bg-gray-700 hover:text-white uppercase",
-                          "px-3 py-2 rounded-md text-sm font-medium"
-                        )}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
+                    {
+                      user && navigation.map((item) => (
+                        (item.name === "Add Disciplina" && isAdmin) || (item.name !== "Add Disciplina") ? (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              item.current
+                                ? "bg-gray-900 text-white uppercase"
+                                : "text-gray-300 hover:bg-gray-700 hover:text-white uppercase",
+                              "px-3 py-2 rounded-md text-sm font-medium uppercase"
+                            )}
+                            aria-current={item.current ? "page" : undefined}
+                          >
+                            {item.name}
+                          </Link>
+                        ) : (
+                          <Fragment key={item.name}></Fragment>
+                        )
+                      ))
+                    }
                   </div>
                 </div>
               </div>

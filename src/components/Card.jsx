@@ -22,7 +22,7 @@ const Card = ({
           <div className="px-6 py-4">
             <div className="font-bold text-xl mb-2 uppercase">{title}</div>
             <p className="text-gray-700 text-lg font-bold">
-              {description}
+              {description.slice(0, 45)}...
             </p>
           </div>
           <div className="px-6 pt-4 pb-2">

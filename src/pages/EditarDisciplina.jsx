@@ -47,7 +47,7 @@ const EditarDisciplina = () => {
       try {
         const docRef = doc(db, 'disciplinas', id);
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
           setDisciplina({
             ...docSnap.data(),
@@ -60,6 +60,7 @@ const EditarDisciplina = () => {
         toast.error(error.message);
       }
     };
+
     getDisciplina();
   }, [id, navigate]);
 
