@@ -66,6 +66,16 @@ const Topicos = () => {
             </Link>
           )
         }
+        {/* {
+          isAdmin && (
+            <Link
+              to={`/topicos/${id}/quiz`}
+              className="text-white font-bold py-2 px-4 rounded mb-4 bg-blue-500 hover:bg-blue-700"
+            >
+              Adicionar Quiz
+            </Link>
+          )
+        } */}
         <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
         >

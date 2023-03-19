@@ -161,9 +161,9 @@ const EditarMateria = () => {
                           Descrição
                         </label>
                         <ReactQuill
+                          className=""
                           value={materia.descricao}
-                          onChange={(e) => setMateria({ ...materia, descricao: e })}
-                          className="mt-1 p-2 border-2 block w-full shadow-sm sm:text-lg border-gray-700 rounded-md"
+                          onChange={(value) => setMateria({ ...materia, descricao: value })}
                         ></ReactQuill>
                       </div>
                       <div className="col-span-6 sm:col-span-3">

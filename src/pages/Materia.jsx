@@ -122,12 +122,16 @@ const Materia = () => {
               </h3>
             </div>
             <div className="mt-2">
-              <p className="text-sm text-gray-500">
-                {materia.descricao}
+              <p
+                className="text-lg text-gray-700"
+                dangerouslySetInnerHTML={{
+                  __html: materia.descricao,
+                }}
+              >
               </p>
             </div>
             <code
-              className="text-sm text-gray-500"
+              className="text-sm text-gray-700"
             >
               {materia.code}
             </code>

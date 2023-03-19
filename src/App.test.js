@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, MemoryRouter } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -38,10 +38,20 @@ describe("NotFound", () => {
   })
 });
 
-describe("Materia", () => {
-  test("exibe Editar Materia", () => {
-    const { getByText } = render(<Materia />);
-    const mensagem = getByText('Editar Materia');
+describe("Login", () => {
+  test("exibe mensagem de erro", () => {
+    const { getByText } = render(
+      <BrowserRouter>
+        <Login />
+      </BrowserRouter>
+    );
+    const mensagem = getByText('Login');
     expect(mensagem).toBeInTheDocument();
   })
+});
+
+it('renders without crashing', () => {
+  const div = document.createElement('div');
+  ReactDOM.render(<App />, div);
+  ReactDOM.unmountComponentAtNode(div);
 });

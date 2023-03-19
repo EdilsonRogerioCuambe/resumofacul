@@ -64,7 +64,7 @@ const Login = () => {
               />
             </div>
             <input
-              className="bg-blue-500 hover:bg-blue-700 w-full p-2 text-white uppercase font-bold"
+              className="bg-blue-500 hover:bg-blue-700 w-full p-2 text-white uppercase font-bold cursor-pointer"
               type="submit"
               value="Iniciar"
               disabled={loading}
@@ -79,7 +79,7 @@ const Login = () => {
               }}
             />
             <input
-              className="bg-red-500 hover:bg-red-700 w-full p-2 text-white uppercase font-bold mt-2"
+              className="bg-red-500 hover:bg-red-700 w-full p-2 text-white uppercase font-bold mt-2 cursor-pointer"
               type="submit"
               value="Iniciar com Google"
               disabled={loading}
