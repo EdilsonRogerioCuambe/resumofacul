@@ -24,7 +24,6 @@ const Header = () => {
   const navigation = [
     { name: "Home", href: "/", current: false },
     { name: "Add Disciplina", href: "/add_disciplina", current: false },
-    { name: "Topicos", href: "/todos_topicos", current: false },
   ];
 
   function classNames(...classes) {

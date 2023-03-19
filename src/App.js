@@ -12,7 +12,6 @@ import {
   AddDisciplina,
   Disciplina,
   EditarMateria,
-  TodosTopicos,
 } from './pages';
 import { ToastContainer } from 'react-toastify';
 import { Header } from './components';
@@ -29,7 +28,6 @@ function App() {
         <Route path="/perfil/*" element={<Perfil />} />
         <Route path="/add_disciplina/" element={<AddDisciplina />} />
         <Route path="/disciplinas/:id" element={<Disciplina />} />
-        <Route path="/todos_topicos/" element={<TodosTopicos />} />
         <Route path="/topicos/:topicoId/materias/:materiaId/" element={<Materia />} />
         <Route path="/topicos/:topicoId/materias/:materiaId/editar" element={<EditarMateria />} />
         <Route path="/topicos/:id/adicionar-materia" element={<AddMateria />} />
