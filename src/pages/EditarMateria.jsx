@@ -39,6 +39,7 @@ const EditarMateria = () => {
       [{ 'align': [] }],
 
       ['clean'], // remove formatting button
+      ['link', 'image', 'video'],
     ],
     clipboard: {
       // toggle to add extra line breaks when pasting HTML:

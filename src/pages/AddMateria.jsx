@@ -30,6 +30,21 @@ const AddMateria = () => {
         setMateria({ ...materia, [name]: value });
     };
 
+    const handleTagsChange = (event) => {
+        const { name, value } = event.target;
+        setMateria({ ...materia, [name]: value.split(',') });
+    };
+
+    const handleCodeChange = (event) => {
+        const { name, value } = event.target;
+        setMateria({ ...materia, [name]: value.split(',') });
+    };
+
+    const handleImageChange = (event) => {
+        const { name, files } = event.target;
+        setMateria({ ...materia, [name]: files[0] });
+    };
+
     const modules = {
         toolbar: [
             ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -49,11 +64,12 @@ const AddMateria = () => {
             [{ 'align': [] }],
 
             ['clean'], // remove formatting button
+            ['link', 'image', 'video']
         ],
         clipboard: {
             // toggle to add extra line breaks when pasting HTML:
             matchVisual: false,
-        }
+        },
     }
 
     const formats = [
@@ -116,20 +132,7 @@ const AddMateria = () => {
         return toast.info(`Carregando imagem: ${progress}%`);
     }
 
-    const handleTagsChange = (event) => {
-        const { name, value } = event.target;
-        setMateria({ ...materia, [name]: value.split(',') });
-    };
 
-    const handleCodeChange = (event) => {
-        const { name, value } = event.target;
-        setMateria({ ...materia, [name]: value.split(',') });
-    };
-
-    const handleImageChange = (event) => {
-        const { name, files } = event.target;
-        setMateria({ ...materia, [name]: files[0] });
-    };
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
