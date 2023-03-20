@@ -127,8 +127,7 @@ const Materia = () => {
                 dangerouslySetInnerHTML={{
                   __html: materia.descricao,
                 }}
-              >
-              </p>
+              />
             </div>
             <code
               className="text-sm text-gray-700"

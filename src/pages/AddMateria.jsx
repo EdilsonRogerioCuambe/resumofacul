@@ -5,6 +5,8 @@ import { ref, getDownloadURL, uploadBytesResumable } from 'firebase/storage';
 import { addDoc, collection } from "firebase/firestore";
 import { toast } from 'react-toastify';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 
 
@@ -19,6 +21,7 @@ const AddMateria = () => {
         tags: '',
         code: '',
     });
+
     const [progress, setProgress] = useState(0);
     const { id } = useParams();
 
@@ -26,6 +29,39 @@ const AddMateria = () => {
         const { name, value } = event.target;
         setMateria({ ...materia, [name]: value });
     };
+
+    const modules = {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }], // custom button values
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }], // superscript/subscript
+            [{ 'indent': '-1' }, { 'indent': '+1' }], // outdent/indent
+            [{ 'direction': 'rtl' }], // text direction
+
+            [{ 'size': ['small', false, 'large', 'huge'] }], // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }], // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+
+            ['clean'], // remove formatting button
+        ],
+        clipboard: {
+            // toggle to add extra line breaks when pasting HTML:
+            matchVisual: false,
+        }
+    }
+
+    const formats = [
+        'header', 'font', 'size',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list', 'bullet', 'indent',
+        'link', 'image', 'video', 'color'
+    ]
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -41,9 +77,6 @@ const AddMateria = () => {
         }
         if (materia.imagem === '') {
             return toast.error('A matéria deve ter uma imagem');
-        }
-        if (materia.code.length === 0) {
-            return toast.error('A matéria deve ter pelo menos um código');
         }
 
         const storageRef = ref(storage, `materias/${materia.imagem.name}`);
@@ -106,13 +139,13 @@ const AddMateria = () => {
                     <div className="mb-4">
                         <label
                             className="block text-gray-700 font-bold mb-2"
-                            htmlFor="title"
+                            htmlFor="titulo"
                         >
                             Título
                         </label>
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="title"
+                            id="titulo"
                             type="text"
                             placeholder="Digite o título da matéria"
                             value={materia.titulo}
@@ -123,19 +156,21 @@ const AddMateria = () => {
                     <div className="mb-4">
                         <label
                             className="block text-gray-700 font-bold mb-2"
-                            htmlFor="description"
+                            htmlFor="descricao"
                         >
                             Descrição
                         </label>
-                        <textarea
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="description"
-                            rows="5"
+                        <ReactQuill
+                            className="shadow appearance-none border text-xl rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="descricao"
+                            type="text"
                             placeholder="Digite a descrição da matéria"
                             value={materia.descricao}
-                            onChange={handleInputChange}
+                            onChange={(value) => setMateria({ ...materia, descricao: value })}
                             name='descricao'
-                        ></textarea>
+                            modules={modules}
+                            formats={formats}
+                        />
                     </div>
                     <div className="mb-4">
                         <label

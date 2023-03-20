@@ -35,9 +35,6 @@ const EditarMateria = () => {
     if (materia.imagem === '') {
       return toast.error('A matéria deve ter uma imagem');
     }
-    if (materia.code.length === 0) {
-      return toast.error('A matéria deve ter pelo menos um código');
-    }
 
     try {
       let imagemUrl = materia.imagem;
